@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+backend/store.json
+.venv/
+.env

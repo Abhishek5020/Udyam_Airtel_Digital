@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Accel Udyam Digital</title>
+<style>
+:root{--red:#E40000;--red2:#B80000;--ink:#1d1d1f;--mut:#6b6b70;--line:#ececf0;--bg:#f6f6f8;--card:#fff;--ok:#0a8a43;--warn:#c77700;--bad:#c41c1c}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans Devanagari",sans-serif;background:var(--bg);color:var(--ink)}
+.app{max-width:440px;margin:0 auto;min-height:100vh;background:var(--card);box-shadow:0 0 0 1px var(--line);display:flex;flex-direction:column}
+header{background:linear-gradient(135deg,var(--red),var(--red2));color:#fff;padding:14px 16px 10px}
+header .row{display:flex;align-items:center;justify-content:space-between}
+header h1{font-size:17px;margin:0;font-weight:700;letter-spacing:.2px}header small{opacity:.85;font-size:12px}
+select.lang{background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.4);border-radius:8px;padding:4px 6px;font-size:13px}
+select.lang option{color:#000}
+nav{display:flex;gap:4px;margin-top:10px}nav button{flex:1;background:rgba(255,255,255,.15);color:#fff;border:0;border-radius:8px;padding:7px 2px;font-size:12px;font-weight:600}
+nav button.on{background:#fff;color:var(--red)}
+main{flex:1;padding:14px;overflow:auto}
+.msg{max-width:86%;padding:10px 12px;border-radius:14px;margin:6px 0;font-size:14px;line-height:1.4}
+.bot{background:#f1f1f4;border-top-left-radius:4px}.me{background:var(--red);color:#fff;margin-left:auto;border-top-right-radius:4px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 12px}
+.chip{border:1.5px solid var(--red);color:var(--red);background:#fff;border-radius:18px;padding:7px 12px;font-size:13px;font-weight:600;cursor:pointer}
+.chip.sel{background:var(--red);color:#fff}
+.inrow{display:flex;gap:6px;margin-top:8px}.inrow input{flex:1;padding:10px;border:1px solid var(--line);border-radius:10px;font-size:14px}
+.btn{background:var(--red);color:#fff;border:0;border-radius:10px;padding:11px 14px;font-weight:700;font-size:14px;cursor:pointer}
+.btn.ghost{background:#fff;color:var(--red);border:1.5px solid var(--red)}.btn.full{width:100%;margin-top:10px}
+.card{border:1px solid var(--line);border-radius:14px;padding:12px;margin:10px 0;background:#fff}
+.li{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed var(--line)}.li:last-child{border:0}
+.li .nm{font-weight:600;font-size:14px}.li .why{font-size:12.5px;color:var(--mut);margin-top:2px}.li .pr{margin-left:auto;text-align:right;font-weight:700;font-size:14px;white-space:nowrap}
+.tag{display:inline-block;font-size:10.5px;padding:2px 6px;border-radius:6px;background:#fff1f1;color:var(--red);font-weight:700;margin-left:4px}
+.tog{appearance:none;width:38px;height:22px;border-radius:12px;background:#ccc;position:relative;cursor:pointer;flex:none;margin-top:2px}
+.tog:checked{background:var(--ok)}.tog:before{content:"";position:absolute;width:18px;height:18px;border-radius:50%;background:#fff;top:2px;left:2px;transition:.15s}.tog:checked:before{left:18px}
+.total{display:flex;justify-content:space-between;font-size:13px;padding:3px 0}.total.big{font-size:20px;font-weight:800;padding-top:8px;border-top:1px solid var(--line);margin-top:6px}
+.swap{background:linear-gradient(135deg,#0a8a43,#067235);color:#fff;border:0}.swap b{font-size:22px}
+.muted{color:var(--mut);font-size:12.5px}.ok{color:var(--ok)}.warn{color:var(--warn)}.bad{color:var(--bad)}
+.check{display:flex;gap:8px;font-size:13px;padding:6px 0;border-bottom:1px solid var(--line)}.check .ic{width:18px;flex:none;font-weight:800}
+.verdict{font-weight:800;font-size:16px;padding:10px;border-radius:10px;text-align:center}
+.v-APPROVED{background:#e7f6ee;color:var(--ok)}.v-NEEDS_REVIEW{background:#fff4e0;color:var(--warn)}.v-REJECTED{background:#fdeaea;color:var(--bad)}
+.up{display:grid;grid-template-columns:1fr 1fr;gap:8px}.up label{border:1.5px dashed #d3d3da;border-radius:12px;padding:10px;font-size:12px;text-align:center;cursor:pointer}
+.up input{display:none}.up label.has{border-color:var(--ok);color:var(--ok)}
+.tl{position:relative;padding-left:22px}.tl .st{position:relative;padding:6px 0 12px}.tl .st:before{content:"";position:absolute;left:-17px;top:9px;width:12px;height:12px;border-radius:50%;background:#d6d6dc}
+.tl .st.done:before{background:var(--ok)}.tl .st.next:before{background:var(--red);box-shadow:0 0 0 4px #ffdede}.tl:before{content:"";position:absolute;left:10px;top:12px;bottom:18px;width:2px;background:#e5e5ea}
+.pill{display:inline-block;padding:3px 8px;border-radius:20px;background:#f1f1f4;font-size:12px;margin:2px}
+.consent label{display:flex;gap:8px;font-size:13px;padding:6px 0}
+footer{font-size:11px;color:var(--mut);text-align:center;padding:10px}
+.hide{display:none}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="row"><div><h1>Accel Business · Udyam Digital</h1><small id="tagline">Your business, online in one sitting</small></div>
+  <select class="lang" id="lang"><option value="en">English</option><option value="hi">हिन्दी</option></select></div>
+  <nav><button data-v="advisor" class="on">1 · <span data-t="advisor">Advisor</span></button><button data-v="quote">2 · <span data-t="quote">Quote</span></button><button data-v="kyc">3 · KYC</button><button data-v="track">4 · <span data-t="track">Track</span></button></nav>
+</header>
+<main>
+  <section id="v-advisor"><div id="chat"></div><div id="ctl"></div></section>
+  <section id="v-quote" class="hide"></section>
+  <section id="v-kyc" class="hide"></section>
+  <section id="v-track" class="hide"></section>
+</main>
+<footer>Synthetic data · YTL Hackathon 2026 · Team DevSquad_VITVellore · <a href="backoffice.html">Back office</a></footer>
+</div>
+<script>
+const T={en:{advisor:"Advisor",quote:"Quote",track:"Track",tagline:"Your business, online in one sitting",
+ hello:"Namaste! I'm Udyam Saathi. 6 quick questions and I'll build your business bundle with one clear monthly price.",
+ q_type:"What kind of business do you run? Tap one, or just describe it in your words.",
+ q_emp:"How many people work there (including you)?",q_sites:"How many shops / branches / sites?",
+ q_tier:"Which city are you in?",q_gst:"Do you have a GST number?",q_fibre:"Is fibre broadband available on your street?",
+ q_needs:"What do you need? Pick all that apply.",q_spend:"Roughly how much do you pay every month today for internet + phones + other digital services, and to how many vendors?",
+ build:"Build my bundle",yes:"Yes",no:"No",notsure:"Not sure",free:"Or type: e.g. 'kirana store, 3 log, UPI aur CCTV chahiye'",
+ send:"Send",done:"Here's your bundle. Toggle anything off - the price updates instantly.",per_month:"/month",
+ swap_t:"Bill-Swap: same services bought separately",save:"You save",vendors:"vendors → 1 bill, 1 helpline",
+ cant:"Not available for you yet",accept:"Accept & do e-KYC (2 min)",partner:"Partner / Saathi code (optional)",
+ },
+ hi:{advisor:"सलाहकार",quote:"कोटेशन",track:"ट्रैक",tagline:"आपका बिज़नेस, एक ही बार में ऑनलाइन",
+ hello:"नमस्ते! मैं उद्यम साथी हूँ। 6 छोटे सवाल - और मैं आपके बिज़नेस का बंडल एक साफ़ मासिक कीमत के साथ बना दूँगा।",
+ q_type:"आपका बिज़नेस क्या है? एक चुनें, या अपने शब्दों में लिखें।",q_emp:"कितने लोग काम करते हैं (आप मिलाकर)?",
+ q_sites:"कितनी दुकानें / ब्रांच हैं?",q_tier:"आप किस शहर में हैं?",q_gst:"क्या आपके पास GST नंबर है?",
+ q_fibre:"क्या आपकी गली में फाइबर ब्रॉडबैंड है?",q_needs:"आपको क्या चाहिए? जितने चाहें चुनें।",
+ q_spend:"अभी इंटरनेट + फोन + बाकी डिजिटल सेवाओं पर हर महीने लगभग कितना खर्च होता है, और कितने वेंडर हैं?",
+ build:"मेरा बंडल बनाएं",yes:"हाँ",no:"नहीं",notsure:"पता नहीं",free:"या लिखें: जैसे 'किराना दुकान, 3 लोग, UPI और CCTV चाहिए'",
+ send:"भेजें",done:"यह रहा आपका बंडल। कुछ भी बंद करें - कीमत तुरंत बदलेगी।",per_month:"/महीना",
+ swap_t:"बिल-स्वैप: यही सेवाएं अलग-अलग लेने पर",save:"आपकी बचत",vendors:"वेंडर → 1 बिल, 1 हेल्पलाइन",
+ cant:"अभी आपके लिए उपलब्ध नहीं",accept:"स्वीकार करें और e-KYC करें (2 मिनट)",partner:"पार्टनर / साथी कोड (वैकल्पिक)"}};
+let L="en";const t=k=>(T[L][k]||T.en[k]);
+const $=s=>document.querySelector(s);const inr=n=>"₹"+Math.round(n).toLocaleString("en-IN");
+const S={profile:{needs:[],city_tier:2,has_gstin:true,fibre_available:true,sites:1,employees:3},rec:null,off:new Set(),sid:null,consent:null,kyc:null,order:null,
+ partner:new URLSearchParams(location.search).get("partner")||""};
+const CITIES=[["Mumbai",1],["Delhi",1],["Bengaluru",1],["Chennai",1],["Pune",1],["Jaipur",2],["Lucknow",2],["Kochi",2],["Nagpur",2],["Patna",2],["Vellore",2]];
+const NEEDS={upi_pos:["UPI / billing","UPI / बिलिंग"],whatsapp:["WhatsApp orders","WhatsApp ऑर्डर"],cctv:["CCTV","CCTV"],cloud_email:["Business email","बिज़नेस ईमेल"],
+ security:["Antivirus","एंटीवायरस"],failover:["Never-down internet","कभी बंद न हो"],guest_wifi:["Customer Wi-Fi","ग्राहक Wi-Fi"],website:["Website","वेबसाइट"],
+ telephony:["Business phone line","बिज़नेस फोन लाइन"],sms:["Bulk SMS","बल्क SMS"],backup:["Data backup","डेटा बैकअप"],firewall:["Firewall","फ़ायरवॉल"],
+ iot:["Machine alerts","मशीन अलर्ट"],fleet:["Vehicle tracking","गाड़ी ट्रैकिंग"],sdwan:["Manage all branches","सभी ब्रांच मैनेज"]};
+const SEGS=[["micro","🛒 Kirana / salon / pharmacy","🛒 किराना / सैलून / मेडिकल"],["prof","🩺 Clinic / CA / coaching","🩺 क्लिनिक / CA / कोचिंग"],["multi","🍽️ Restaurant / store chain","🍽️ रेस्टोरेंट / स्टोर चेन"],["mfg","🏭 Small factory / workshop","🏭 छोटी फैक्ट्री / वर्कशॉप"]];
+async function api(p,o){const r=await fetch(p,o);if(!r.ok)throw new Error(await r.text());return r.json()}
+const post=(p,b)=>api(p,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(b)});
+
+function say(txt,who="bot"){const d=document.createElement("div");d.className="msg "+who;d.innerHTML=txt;$("#chat").appendChild(d);d.scrollIntoView({behavior:"smooth"})}
+function ctl(html){$("#ctl").innerHTML=html}
+function chips(opts,cb,multi){const w=document.createElement("div");w.className="chips";
+ opts.forEach(([v,lab])=>{const b=document.createElement("button");b.className="chip";b.textContent=lab;b.onclick=()=>{if(multi){b.classList.toggle("sel")}else{ctl("");say(lab,"me");cb(v)}};b.dataset.v=v;w.appendChild(b)});
+ $("#ctl").innerHTML="";$("#ctl").appendChild(w);
+ if(multi){const go=document.createElement("button");go.className="btn full";go.textContent=t("build")+" →";go.onclick=()=>{const v=[...w.querySelectorAll(".sel")].map(b=>b.dataset.v);say(v.map(x=>NEEDS[x][L=="hi"?1:0]).join(", ")||"—","me");ctl("");cb(v)};$("#ctl").appendChild(go)}
+ return w}
+function freeText(){const r=document.createElement("div");r.className="inrow";r.innerHTML=`<input id="ft" placeholder="${t("free")}"><button class="btn" id="ftb">${t("send")}</button>`;$("#ctl").appendChild(r);
+ $("#ftb").onclick=async()=>{const v=$("#ft").value.trim();if(!v)return;say(v,"me");ctl("");const p=await post("/api/advisor/parse",{text:v});
+  Object.assign(S.profile,p,{needs:[...new Set([...(S.profile.needs||[]),...p.needs])]});S.parsed=p;
+  const got=[];if(p.segment)got.push(SEGS.find(s=>s[0]==p.segment)[L=="hi"?2:1]);if(p.employees)got.push(p.employees+" 👤");if(p.sites)got.push(p.sites+" 🏪");p.needs.forEach(n=>got.push(NEEDS[n][L=="hi"?1:0]));
+  say((L=="hi"?"समझ गया: ":"Got it: ")+got.map(g=>`<span class=pill>${g}</span>`).join(" "));
+  p.segment?step(p.employees?(p.sites?"tier":"sites"):"emp"):step("type")}}
+
+function step(s){
+ if(s==="type"){say(t("q_type"));chips(SEGS.map(x=>[x[0],x[L=="hi"?2:1]]),v=>{S.profile.segment=v;step("emp")});freeText()}
+ if(s==="emp"){say(t("q_emp"));chips([[2,"1–2"],[4,"3–5"],[8,"6–9"],[15,"10–19"],[30,"20–49"],[60,"50+"]],v=>{S.profile.employees=+v;step(S.profile.segment==="multi"?"sites":"sites")})}
+ if(s==="sites"){say(t("q_sites"));chips([[1,"1"],[2,"2"],[3,"3"],[5,"4–6"],[8,"7–10"]],v=>{S.profile.sites=+v;step("tier")})}
+ if(s==="tier"){say(t("q_tier"));chips(CITIES.map(c=>[c[1]+"|"+c[0],c[0]]),v=>{const[a,b]=v.split("|");S.profile.city_tier=+a;S.city=b;step("gst")})}
+ if(s==="gst"){say(t("q_gst"));chips([[1,t("yes")],[0,t("no")]],v=>{S.profile.has_gstin=!!+v;if(+v){gstQuick()}else{step("fibre")}})}
+ if(s==="fibre"){say(t("q_fibre"));chips([[1,t("yes")],[0,t("no")],[1,t("notsure")]],v=>{S.profile.fibre_available=!!+v;step("needs")})}
+ if(s==="needs"){say(t("q_needs"));const w=chips(Object.entries(NEEDS).map(([k,v])=>[k,v[L=="hi"?1:0]]),v=>{S.profile.needs=[...new Set([...(S.profile.needs||[]),...v])];step("spend")},true);
+  (S.profile.needs||[]).forEach(n=>{const b=w.querySelector(`[data-v=${n}]`);b&&b.classList.add("sel")});
+  const sim=document.createElement("div");sim.className="inrow";sim.innerHTML=`<span class=muted style="align-self:center">${L=="hi"?"बिज़नेस सिम":"Business SIMs"}</span><input id="sims" type="number" min="0" value="${Math.min(S.profile.employees||2,5)}" style="max-width:80px">`;$("#ctl").insertBefore(sim,$("#ctl").lastChild)}
+ if(s==="spend"){S.profile.sim_lines=+($("#sims")?.value||S.profile.sim_lines||0);say(t("q_spend"));
+  ctl(`<div class="inrow"><input id="sp" type="number" placeholder="₹ / month" value="2000"><input id="vn" type="number" placeholder="vendors" value="3" style="max-width:90px"></div><button class="btn full" id="go">${t("build")} →</button>`);
+  $("#go").onclick=()=>{S.profile.current_spend=+$("#sp").value;S.profile.current_vendors=+$("#vn").value;say(`${inr(S.profile.current_spend)} · ${S.profile.current_vendors} vendors`,"me");ctl("");build()}}
+}
+function gstQuick(){ctl(`<div class="inrow"><input id="g" placeholder="GSTIN (optional) e.g. 37NBLXS1145E1ZU"><button class="btn" id="gb">${L=="hi"?"जांचें":"Check"}</button></div><button class="btn ghost full" id="gs">${L=="hi"?"बाद में":"Skip for now"}</button>`);
+ $("#gs").onclick=()=>{ctl("");step("fibre")};
+ $("#gb").onclick=async()=>{const g=$("#g").value.trim();const r=await api("/api/lookup/gstin/"+encodeURIComponent(g));ctl("");say(g.slice(0,2)+"•••••••••"+g.slice(-3),"me");
+  if(r.found&&r.record.status==="Active"){S.biz=r.record.trade_name;S.gstin=g;say(`✅ ${r.record.trade_name} · ${r.record.constitution} · ${r.record.state}. ${L=="hi"?"फॉर्म अपने-आप भर गया।":"Pre-filled from GST registry - no typing needed."}`)}
+  else if(r.found){S.profile.has_gstin=false;say(`⚠️ GSTIN status: <b>${r.record.status}</b>. ${L=="hi"?"GST वाले प्रोडक्ट अभी नहीं मिलेंगे।":"GST-only products will be held back until it's active."}`)}
+  else{say(`❌ ${!r.format_ok?"Format invalid":!r.checksum_ok?"Check digit invalid - please re-check":"Not found in registry"}`)}
+  step("fibre")}}
+
+async function build(){S.profile.lang=L;const r=await post("/api/advisor/recommend",{profile:S.profile,lang:L,session_id:S.sid,partner_code:S.partner});S.rec=r;S.sid=r.session_id;S.off=new Set();
+ say(t("done")+` <b>${inr(r.monthly_net)}${t("per_month")}</b>`);ctl(`<button class="btn full" onclick="show('quote')">${L=="hi"?"कोटेशन देखें":"See my quote"} →</button>`);show("quote")}
+
+function lineHTML(l){const on=!S.off.has(l.product_id)&&(!l.optional||S.profile.accept_optional?.includes(l.product_id));
+ return `<div class="li"><input type="checkbox" class="tog" ${on?"checked":""} data-p="${l.product_id}" data-opt="${l.optional?1:0}">
+ <div><div class="nm">${l.name}${l.optional?`<span class=tag>${L=="hi"?"सुझाव":"Suggested"}</span>`:""}</div><div class="why">${l.why}</div>
+ <div class="muted">${l.qty} × ${inr(l.unit_price)} ${l.unit} · ${l.contract_months}m · ${l.install_days}d install</div></div><div class="pr">${inr(l.monthly)}</div></div>`}
+async function renderQuote(){const v=$("#v-quote");const r=S.rec;if(!r){v.innerHTML=`<p class=muted>${L=="hi"?"पहले सलाहकार से बात करें।":"Chat with the advisor first."}</p>`;return}
+ const q=await post("/api/quote",{lines:r.lines,profile:S.profile,toggled_off:[...S.off]});S.q=q;const bs=q.bill_swap;
+ v.innerHTML=`<div class="card"><div class=muted>${r.segment} · ${S.city||"Tier "+S.profile.city_tier} ${S.biz?"· "+S.biz:""}</div>${r.lines.map(lineHTML).join("")}</div>
+ ${r.skipped.length?`<div class="card"><b>${t("cant")}</b>${r.skipped.map(s=>`<div class="muted">• ${s.name}: ${s.reason}${/GSTIN/.test(s.reason)?` - <a href="#" onclick="alert('We help you register GST free via a partner CA in 3-7 days; these unlock automatically.');return false">${L=="hi"?"GST में मदद लें":"Get free GST help"}</a>`:""}</div>`).join("")}</div>`:""}
+ <div class="card"><div class="total"><span>${L=="hi"?"कुल":"Services"}</span><span>${inr(q.monthly_gross)}</span></div>
+ <div class="total ok"><span>One-Bill ${L=="hi"?"छूट":"discount"} (${q.one_bill_discount_pct}%)</span><span>−${inr(q.one_bill_discount)}</span></div>
+ <div class="total"><span>GST 18%</span><span>${inr(q.gst_18)}</span></div>
+ <div class="total big"><span>${L=="hi"?"हर महीने":"Every month"}</span><span>${inr(q.monthly_total_incl_gst)}</span></div>
+ <div class="total"><span>${L=="hi"?"एक बार सेटअप":"One-time setup"}</span><span>${q.setup_waived?`<s>${inr(q.setup_total)}</s> ₹0`:inr(q.setup_payable)}</span></div>
+ <div class="chips"><button class="chip ${S.profile.contract_choice==24?"":"sel"}" onclick="S.profile.contract_choice=12;renderQuote()">12 ${L=="hi"?"महीने":"months"}</button><button class="chip ${S.profile.contract_choice==24?"sel":""}" onclick="S.profile.contract_choice=24;renderQuote()">24 ${L=="hi"?"महीने - सेटअप मुफ्त":"months - setup FREE"}</button></div>
+ <div class=muted>⏱ ${L=="hi"?"सब कुछ चालू":"Everything live in"} ~${q.activation_eta_days} ${L=="hi"?"दिन":"days"} · ${L=="hi"?"देरी हुई तो हर दिन का क्रेडिट":"late? auto-credit for every day"}</div></div>
+ <div class="card swap"><div style="font-size:12.5px;opacity:.9">${t("swap_t")}: ${inr(bs.same_services_separately)}${t("per_month")}</div><div>${t("save")} <b>${inr(bs.saving_vs_separate)}</b>${t("per_month")} · ${inr(bs.saving_vs_separate*12)}/yr</div>
+ <div style="font-size:12.5px;opacity:.9">${bs.current_vendors||"?"} ${t("vendors")}</div></div>
+ <input id="pc" placeholder="${t("partner")}" value="${S.partner}" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px">
+ <button class="btn full" onclick="S.partner=$('#pc').value;show('kyc')">${t("accept")} →</button>`;
+ v.querySelectorAll(".tog").forEach(c=>c.onchange=()=>{const p=c.dataset.p;if(c.dataset.opt==1){S.profile.accept_optional=S.profile.accept_optional||[];c.checked?S.profile.accept_optional.push(p):S.profile.accept_optional=S.profile.accept_optional.filter(x=>x!=p)}else{c.checked?S.off.delete(p):S.off.add(p)}renderQuote()})}
+
+const DT=[["gst_certificate","GST certificate"],["udyam_certificate","Udyam certificate"],["signatory_id","Signatory ID"],["address_proof","Address proof (≤90 days)"]];
+function renderKyc(){const v=$("#v-kyc");
+ if(!S.consent){v.innerHTML=`<div class="card consent"><h3 style="margin:0 0 6px">🔒 ${L=="hi"?"आपकी सहमति":"Your consent (DPDP Act, 2023)"}</h3>
+ <p class=muted>${L=="hi"?"हम सिर्फ़ उतना ही लेते हैं जितना कनेक्शन देने के लिए कानूनन ज़रूरी है।":"We collect only what the law needs to give you a business connection. Nothing else."}</p>
+ <label><input type="checkbox" checked disabled> ${L=="hi"?"KYC सत्यापन (ज़रूरी)":"Verify identity & business for KYC (required by DoT/TRAI)"}</label>
+ <label><input type="checkbox" checked disabled> ${L=="hi"?"इंस्टॉलेशन के लिए पता":"Use address to schedule installation (required)"}</label>
+ <label><input type="checkbox" id="c3"> ${L=="hi"?"ऑफर के लिए WhatsApp (वैकल्पिक)":"WhatsApp me offers & tips (optional - off by default)"}</label>
+ <div class="muted" style="margin-top:6px">• ${L=="hi"?"फोटो 30 दिन बाद डिलीट":"Document images deleted 30 days after activation"}<br>• ${L=="hi"?"GSTIN/ID हर जगह मास्क":"GSTIN / ID numbers masked everywhere (37••••••••••1ZU)"}<br>• ${L=="hi"?"कभी भी सहमति वापस लें":"Withdraw anytime from the tracker - one tap"}<br>• DigiLocker ${L=="hi"?"से भी ला सकते हैं":"pull supported - no uploads needed"}</div>
+ <button class="btn full" id="agree">${L=="hi"?"मैं सहमत हूँ":"I agree - continue"}</button></div>`;
+ $("#agree").onclick=async()=>{const purposes=["kyc_verification","installation"].concat($("#c3").checked?["marketing_whatsapp"]:[]);S.consent=await post("/api/kyc/consent",{session_id:S.sid||"demo",purposes,lang:L});renderKyc()};return}
+ v.innerHTML=`<div class="card"><div class=muted>Consent ${S.consent.consent_id} ✓</div><h3 style="margin:6px 0">📄 ${L=="hi"?"दस्तावेज़ की फोटो":"Snap your documents"}</h3>
+ <div class="up">${DT.map(([k,n])=>`<label id="lb-${k}">${n}<input type="file" accept="image/*" capture="environment" id="f-${k}"></label>`).join("")}</div>
+ <button class="btn full" id="ver">${L=="hi"?"जांचें":"Verify instantly"}</button>
+ <div class="muted" style="margin:10px 0 4px">${L=="hi"?"डेमो: नमूना आवेदक चलाएं":"Demo: run a specimen applicant from the dataset"}</div>
+ <div class="chips">${Array.from({length:12},(_,i)=>"K"+String(i+1).padStart(2,"0")).map(k=>`<button class="chip" onclick="sample('${k}')">${k}</button>`).join("")}</div></div><div id="kres"></div>`;
+ DT.forEach(([k])=>$("#f-"+k).onchange=()=>$("#lb-"+k).classList.add("has"));
+ $("#ver").onclick=async()=>{const fd=new FormData();fd.append("consent_id",S.consent.consent_id);DT.forEach(([k])=>{const f=$("#f-"+k).files[0];f&&fd.append(k,f)});
+  $("#kres").innerHTML=`<p class=muted>Reading documents…</p>`;const r=await api("/api/kyc/verify",{method:"POST",body:fd});kycResult(r)}}
+async function sample(k){$("#kres").innerHTML=`<p class=muted>OCR on ${k}… (~5s)</p>`;const r=await api("/api/kyc/sample/"+k);S.biz=S.biz||r.extracted?.gst_certificate?.trade_name||r.extracted?.udyam_certificate?.enterprise_name;kycResult(r)}
+function kycResult(r){S.kyc=r;const ic={pass:["✓","ok"],warn:["!","warn"],fail:["✗","bad"],info:["i","muted"]};
+ $("#kres").innerHTML=`<div class="card"><div class="verdict v-${r.verdict}">${r.verdict.replace("_"," ")}</div>
+ ${r.checks.filter(c=>c.status!="info").map(c=>`<div class="check"><span class="ic ${ic[c.status][1]}">${ic[c.status][0]}</span><div><b>${c.check}</b><div class=muted>${c.detail}</div></div></div>`).join("")}
+ <details><summary class=muted>Extracted fields (masked)</summary><pre style="font-size:11px;white-space:pre-wrap">${JSON.stringify(r.extracted,null,1)}</pre></details></div>
+ ${r.verdict!=="REJECTED"?`<button class="btn full" onclick="placeOrder()">${L=="hi"?"e-Sign करें और ऑर्डर दें":"e-Sign & place order"} →</button>${r.verdict==="NEEDS_REVIEW"?`<p class=muted>${L=="hi"?"एक एजेंट 2 घंटे में पुष्टि करेगा - इंस्टॉलेशन रुकेगा नहीं।":"An agent confirms the flagged item within 2 hours - installation booking is not held up."}</p>`:""}`
+ :`<p class="bad" style="font-size:13px">${L=="hi"?"कृपया ऊपर बताए दस्तावेज़ दोबारा अपलोड करें, या साथी को बुलाएं।":"Please re-upload the flagged document, or tap to get a local Saathi to help you."}</p>`}`}
+async function placeOrder(){if(!S.rec){alert("Build a bundle in the advisor first");return}
+ S.order=await post("/api/orders",{session_id:S.sid,business_name:S.biz||"My business",lines:S.rec.lines,quote:S.q||S.rec,consent_id:S.consent?.consent_id,kyc_verdict:S.kyc?.verdict,partner_code:S.partner||null,lang:L});
+ show("track")}
+async function renderTrack(day=0){const v=$("#v-track");
+ if(!S.order){v.innerHTML=`<div class="card"><b>${L=="hi"?"ऑर्डर नंबर से ट्रैक करें":"Track with your order number"}</b><div class="inrow"><input id="oid" placeholder="UD…"><button class="btn" id="ob">${L=="hi"?"देखें":"Track"}</button></div></div>`;
+  $("#ob").onclick=async()=>{S.order=await api("/api/orders/"+$("#oid").value.trim());renderTrack()};return}
+ const o=await api(`/api/orders/${S.order.order_id}?simulate_day=${day}`);let nextShown=false;
+ v.innerHTML=`<div class="card"><div class=muted>${o.business_name}</div><h3 style="margin:4px 0">${o.order_id}</h3>
+ <div>${L=="hi"?"वादा तारीख":"Promised live by"} <b>${o.promise_date}</b></div>
+ ${o.days_late?`<div class="bad">⚠ ${o.days_late} ${L=="hi"?"दिन देर - ऑटो क्रेडिट":"days late - auto-credit"} ${inr(o.auto_credit_inr)} ${L=="hi"?"अगले बिल में":"on your next bill"}</div>`:`<div class=ok>● ${L=="hi"?"समय पर":"On track"}</div>`}</div>
+ <div class="card"><div class="tl">${o.milestones.map(m=>{let c=m.done?"done":"";if(!m.done&&!nextShown){c="next";nextShown=true}return`<div class="st ${c}"><b style="font-size:13.5px">${m.step}</b><div class=muted>${m.done?"✓ "+m.promised:"by "+m.promised}</div></div>`}).join("")}</div>
+ <div class=muted>Demo: simulate days → <input type="range" min="0" max="20" value="${day}" id="sim" style="width:55%"> day ${day}</div></div>
+ <div class="card"><b>🎁 ${L=="hi"?"पड़ोसी को बताएं":"Refer a neighbour shop"}</b><div class=muted>${L=="hi"?"उनके जुड़ने पर दोनों को 1 महीना मुफ्त":"You both get 1 month free when they go live"}</div>
+ <div class="inrow"><input readonly value="${location.origin}/?ref=${o.referral_code}"><a class="btn" href="https://wa.me/?text=${encodeURIComponent("I set up internet, SIMs & billing for my shop in 10 minutes with Accel Udyam Digital: "+location.origin+"/?ref="+o.referral_code)}" target=_blank>WhatsApp</a></div></div>
+ <div class="card muted">${L=="hi"?"मदद चाहिए?":"Need help?"} ${o.partner_code?`Saathi <b>${o.partner_code}</b> · `:""}${L=="hi"?"एक हेल्पलाइन":"One helpline"} 121 · <a href="#" onclick="withdrawConsent();return false">${L=="hi"?"सहमति वापस लें":"Withdraw consent / delete my documents"}</a></div>`;
+ $("#sim").oninput=e=>renderTrack(+e.target.value)}
+async function withdrawConsent(){if(S.consent){await post(`/api/kyc/consent/${S.consent.consent_id}/withdraw`,{});alert("Consent withdrawn. Document images queued for deletion; only legally required records retained.")}}
+
+function show(v){document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b.dataset.v===v));["advisor","quote","kyc","track"].forEach(x=>$("#v-"+x).classList.toggle("hide",x!==v));
+ if(v==="quote")renderQuote();if(v==="kyc")renderKyc();if(v==="track")renderTrack();window.scrollTo(0,0)}
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>show(b.dataset.v));
+function start(){$("#chat").innerHTML="";ctl("");document.querySelectorAll("[data-t]").forEach(e=>e.textContent=t(e.dataset.t));$("#tagline").textContent=t("tagline");say(t("hello"));step("type")}
+$("#lang").onchange=e=>{L=e.target.value;S.profile={needs:[],city_tier:2,has_gstin:true,fibre_available:true,sites:1,employees:3};S.rec=null;S.biz=null;start();show("advisor")};
+const qp=new URLSearchParams(location.search);if(qp.get("lang"))L=$("#lang").value=qp.get("lang");
+start();
+</script>
+</body>
+</html>

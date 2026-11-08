@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Saathi Back Office</title>
+<style>
+:root{--red:#E40000;--ink:#1d1d1f;--mut:#6b6b70;--line:#ececf0;--bg:#f6f6f8;--ok:#0a8a43}
+body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:#1d1d1f;color:#fff;padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
+header h1{margin:0;font-size:18px}header h1 span{color:var(--red)}
+.wrap{max-width:1200px;margin:0 auto;padding:16px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.k{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px}.k b{font-size:22px;display:block}.k span{font-size:12px;color:var(--mut)}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:12px;overflow:auto}
+h2{font-size:15px;margin:0 0 8px}table{width:100%;border-collapse:collapse;font-size:12.5px}th,td{text-align:left;padding:7px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--mut);font-weight:600}.bar{height:8px;background:var(--red);border-radius:4px}
+.r{display:inline-block;font-size:11px;background:#f1f1f4;border-radius:6px;padding:2px 6px;margin:1px}.r.p{background:#e7f6ee;color:var(--ok)}.r.n{background:#fdeaea;color:#c41c1c}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:800px){.grid2{grid-template-columns:1fr}}
+.muted{color:var(--mut);font-size:12px}a{color:var(--red)}
+</style></head><body>
+<header><h1>Udyam <span>Saathi</span> · Back office for field sales & partners</h1><a href="index.html" style="color:#fff">Customer app →</a></header>
+<div class="wrap">
+<div class="kpis" id="kpis"></div>
+<div class="card"><h2>📞 Win-back call queue - dropped leads ranked by activation propensity</h2>
+<div class="muted" id="mdl"></div><table id="q"></table></div>
+<div class="grid2">
+<div class="card"><h2>Segment economics (Apr–Jun 2026)</h2><table id="seg"></table></div>
+<div class="card"><h2>Conversion by lead source</h2><div id="src"></div></div>
+</div>
+<div class="grid2">
+<div class="card"><h2>Top drop reasons</h2><div id="drops"></div></div>
+<div class="card"><h2>🤝 Partner / Saathi commissions (digital closes)</h2><table id="pt"></table><h2 style="margin-top:14px">Advisor sessions not closed → routed to Saathi</h2><table id="dr"></table></div>
+</div>
+<div class="card"><h2>🔒 Audit log (masked identifiers only)</h2><table id="au"></table></div>
+</div>
+<script>
+const $=s=>document.querySelector(s);const inr=n=>"₹"+Math.round(n).toLocaleString("en-IN");const pct=x=>(x*100).toFixed(1)+"%";
+async function j(p){return (await fetch(p)).json()}
+(async()=>{const [q,ins,pt,dr]=await Promise.all([j("/api/backoffice/queue?n=30"),j("/api/backoffice/insights"),j("/api/backoffice/partners"),j("/api/backoffice/advisor-dropoffs")]);
+ const m=q.model;
+ $("#kpis").innerHTML=[["5,000","leads in quarter"],[pct(m.base_rate),"lead→activation today"],[m.auc,"propensity model AUC (hold-out)"],[m.lift_top20+"×","lift in top-20% call list"],[pct(m.capture_top20),"of activations found in top 20%"]].map(([a,b])=>`<div class=k><b>${a}</b><span>${b}</span></div>`).join("");
+ $("#mdl").textContent="LightGBM on lead-time features only (no leakage). Reasons = per-lead SHAP contributions (green raises, red lowers propensity).";
+ $("#q").innerHTML="<tr><th>Lead</th><th>Business</th><th>Segment · City · Lang</th><th>Dropped at</th><th>Score</th><th>Why (top drivers)</th><th>Action</th></tr>"+q.leads.map(l=>`<tr><td>${l.lead_id}</td><td>${l.business}<div class=muted>${l.gstin}</div></td><td>${l.segment}<div class=muted>${l.city} · ${l.language}</div></td><td>${l.stage}<div class=muted>${l.drop_reason}</div></td><td><b>${(l.score*100).toFixed(0)}</b><div class=bar style="width:${l.score*120}px"></div></td><td>${l.why.map(w=>`<span class="r ${w.impact>0?"p":"n"}">${w.feature}: ${w.value}</span>`).join("")}</td><td><a href="index.html?partner=FIELD-01&lang=${l.language==="Hindi"?"hi":"en"}" target=_blank>Send advisor link</a></td></tr>`).join("");
+ $("#seg").innerHTML="<tr><th>Segment</th><th>Leads</th><th>Conv.</th><th>Median MRR</th><th>6m churn</th><th>CAC</th></tr>"+ins.segments.map(s=>`<tr><td>${s.segment}</td><td>${s.leads}</td><td>${pct(s.conv)}</td><td>${inr(s.median_mrr)}</td><td>${pct(s.churn6m)}</td><td>${inr(s.cac)}</td></tr>`).join("");
+ const mx=Math.max(...Object.values(ins.source_conversion));
+ $("#src").innerHTML=Object.entries(ins.source_conversion).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<div style="display:flex;align-items:center;gap:8px;margin:5px 0"><span style="width:130px;font-size:12.5px">${k}</span><div class=bar style="width:${v/mx*220}px"></div><b style="font-size:12.5px">${pct(v)}</b></div>`).join("");
+ const md=Math.max(...Object.values(ins.top_drop_reasons));
+ $("#drops").innerHTML=Object.entries(ins.top_drop_reasons).map(([k,v])=>`<div style="display:flex;align-items:center;gap:8px;margin:5px 0"><span style="width:220px;font-size:12.5px">${k}</span><div class=bar style="width:${v/md*160}px;background:#888"></div><b style="font-size:12.5px">${v}</b></div>`).join("");
+ $("#pt").innerHTML="<tr><th>Partner</th><th>Orders</th><th>MRR</th><th>Commission (yr-1)</th></tr>"+(pt.length?pt.map(p=>`<tr><td>${p.partner}</td><td>${p.orders}</td><td>${inr(p.mrr)}</td><td>${inr(p.commission_inr)}</td></tr>`).join(""):"<tr><td colspan=4 class=muted>No orders yet - place one in the customer app</td></tr>");
+ $("#dr").innerHTML="<tr><th>Session</th><th>Segment</th><th>Lang</th><th>Quote</th><th>Blocked items</th></tr>"+dr.slice(-8).reverse().map(d=>`<tr><td>${d.session_id}</td><td>${d.segment}</td><td>${d.lang}</td><td>${inr(d.quote||0)}</td><td class=muted>${(d.skipped||[]).join(", ")||"-"}</td></tr>`).join("");
+ $("#au").innerHTML="<tr><th>Time</th><th>Event</th><th>Details</th></tr>"+ins.audit_tail.reverse().map(a=>{const {ts,event,...r}=a;return`<tr><td>${ts}</td><td>${event}</td><td class=muted>${JSON.stringify(r)}</td></tr>`}).join("");
+})();
+</script></body></html>

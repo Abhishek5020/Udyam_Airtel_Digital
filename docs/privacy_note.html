@@ -1,0 +1,38 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@page{size:A4;margin:14mm}body{font-family:Inter,Arial,sans-serif;font-size:10.3px;line-height:1.42;color:#1d1d1f}
+h1{font-size:17px;margin:0;color:#E40000}h2{font-size:11.5px;margin:9px 0 3px;color:#1d1d1f;border-bottom:1.5px solid #E40000;padding-bottom:2px}
+.sub{color:#666;margin:2px 0 6px}table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:3px 5px;vertical-align:top;text-align:left}th{background:#f3f3f6}
+ul{margin:2px 0;padding-left:16px}li{margin:1px 0}
+</style></head><body>
+<h1>Udyam Saathi: Data Privacy &amp; Security Note</h1>
+<div class="sub">Team DevSquad_VITVellore (Abhishek Anand, Utsav Chauhan · VIT Vellore) · YTL Hackathon 2026, Track A · Designed to the Digital Personal Data Protection Act, 2023 (DPDP). All data used is synthetic.</div>
+<h2>1. What we collect, and why (purpose limitation + data minimisation)</h2>
+<table><tr><th>Step</th><th>Data</th><th>Purpose</th><th>Not collected</th></tr>
+<tr><td>Advisor</td><td>Business type, staff count, sites, city, needs, optional current spend</td><td>Recommend an eligible bundle</td><td>No name, phone or ID needed to get a price</td></tr>
+<tr><td>GSTIN lookup</td><td>GSTIN (optional)</td><td>Pre-fill business, check eligibility</td><td>No turnover or returns data</td></tr>
+<tr><td>KYC</td><td>GST cert, Udyam cert, signatory ID, address proof (≤90 days)</td><td>Legal KYC for business connections; install address</td><td>No Aadhaar number stored; no photos of people other than signatory ID</td></tr>
+<tr><td>Order</td><td>Business name, products, install slot, consent ID</td><td>Fulfilment and billing</td><td>No payment card data (handled by PCI gateway)</td></tr></table>
+<h2>2. Consent (s.6 DPDP)</h2>
+<ul><li>A consent screen in the owner's chosen language appears <b>before</b> any document upload. It lists each purpose separately: KYC and installation are required; WhatsApp marketing is optional and <b>off by default</b>.</li>
+<li>Each consent is written to a <b>purpose-tagged consent ledger</b> (consent ID, purposes, language, timestamp, retention text) and linked to the order.</li>
+<li><b>Withdrawal is one tap</b> from the tracker. It triggers deletion of document images and stops optional processing; only records the law requires are kept.</li></ul>
+<h2>3. Minimising exposure</h2>
+<ul><li><b>Masking everywhere:</b> GSTIN, Udyam and ID numbers show only the first 2 and last 3 characters (e.g. 37••••••••••1ZU) in the UI, API responses and logs.</li>
+<li><b>In-memory processing:</b> uploaded images are OCR'd in memory and not written to disk in the prototype. In production they go to an encrypted, access-logged object store.</li>
+<li><b>Audit log</b> records every registry lookup, consent and KYC verdict with masked identifiers only. The back office never sees full IDs.</li>
+<li><b>Role-based access:</b> Saathis (field and partner) see leads, scores and drop reasons, never documents. Only the KYC reviewer role can open a flagged document.</li>
+<li>The propensity model uses business attributes only (segment, size, source, spend). No personal attributes, so there's no profiling of individuals.</li></ul>
+<h2>4. Retention</h2>
+<table><tr><th>Data</th><th>Retention</th></tr>
+<tr><td>KYC document images</td><td>Deleted 30 days after activation (or immediately on rejection, abandonment &gt;30 days, or consent withdrawal)</td></tr>
+<tr><td>Extracted KYC fields + verdict</td><td>Contract term + period required by DoT/telecom KYC and tax rules; then deleted</td></tr>
+<tr><td>Advisor sessions with no order</td><td>90 days, then anonymised (segment/city only) for analytics</td></tr>
+<tr><td>Audit log</td><td>1 year, masked</td></tr></table>
+<h2>5. Security controls</h2>
+<ul><li>TLS 1.2+ in transit and AES-256 at rest. Secrets are kept in a vault and never in code. Registry, DigiLocker and e-Sign calls go only over signed server-to-server APIs.</li>
+<li><b>KYC integrity:</b> GSTIN mod-36 check digit, registry status (cancelled/suspended blocked), cross-document name/state/date checks, blur and skew detection. Uncertain cases go to a human (NEEDS REVIEW) instead of being auto-approved.</li>
+<li><b>GenAI safety:</b> the language model never sees documents or identifiers and cannot choose products. A deterministic rules engine decides eligibility.</li>
+<li>Rate limits on lookup APIs prevent GSTIN enumeration. File-type and size checks run on uploads.</li></ul>
+<h2>6. Data principal rights &amp; grievance</h2>
+<ul><li>Access, correction and erasure from the tracker or helpline 121. A named Grievance Officer responds within the statutory timeline. Breaches are notified to the Data Protection Board and affected owners as DPDP requires.</li></ul>
+</body></html>

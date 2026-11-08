@@ -1,0 +1,34 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+body{margin:0;font-family:Inter,Segoe UI,Roboto,sans-serif;background:#fff;width:1600px;height:820px;position:relative;color:#1d1d1f}
+.b{position:absolute;border-radius:14px;padding:12px 14px;font-size:17px;line-height:1.35;box-sizing:border-box}
+.b h4{margin:0 0 6px;font-size:19px}.u{background:#fff1f1;border:2px solid #E40000}.s{background:#f4f4f7;border:2px solid #555}.d{background:#eef6ff;border:2px solid #2c6fbb}.p{background:#e9f7ef;border:2px solid #0a8a43}
+.lane{position:absolute;font-weight:800;font-size:15px;color:#888;letter-spacing:1px}
+svg{position:absolute;left:0;top:0}
+small{color:#555;font-size:14px}
+</style></head><body>
+<div class="lane" style="left:20px;top:12px">CHANNELS</div><div class="lane" style="left:390px;top:12px">EXPERIENCE (mobile web / PWA)</div><div class="lane" style="left:830px;top:12px">FASTAPI SERVICES</div><div class="lane" style="left:1270px;top:12px">DATA & INTEGRATIONS</div>
+<div class="b u" style="left:20px;top:45px;width:320px;height:120px"><h4>Business owner</h4>Phone browser · Hindi / English (+ regional packs) · voice-ready</div>
+<div class="b u" style="left:20px;top:185px;width:320px;height:120px"><h4>WhatsApp / QR / referral link</h4><small>?ref= &amp; ?partner= codes carry attribution</small></div>
+<div class="b u" style="left:20px;top:325px;width:320px;height:135px"><h4>Saathi: field rep &amp; channel partner</h4>Shares advisor link, earns commission on digital closes</div>
+<div class="b u" style="left:390px;top:45px;width:390px;height:105px"><h4>① Advisor chat</h4>chips + free-text (Hinglish NLU) → profile</div>
+<div class="b u" style="left:390px;top:165px;width:390px;height:105px"><h4>② Quote &amp; checkout</h4>toggle add-ons · One-Bill discount · Bill-Swap</div>
+<div class="b u" style="left:390px;top:285px;width:390px;height:105px"><h4>③ Consent + Smart KYC</h4>DPDP consent → snap 4 docs / DigiLocker → e-sign</div>
+<div class="b u" style="left:390px;top:405px;width:390px;height:105px"><h4>④ Order tracker</h4>promise date · auto-credit if late · referral</div>
+<div class="b u" style="left:390px;top:540px;width:390px;height:105px;background:#1d1d1f;color:#fff;border-color:#1d1d1f"><h4>⑤ Saathi back office</h4>win-back call queue · drop-offs · commissions</div>
+<div class="b s" style="left:830px;top:45px;width:390px;height:120px"><h4>Rules engine (deterministic)</h4>tier · size · GSTIN · requires_one_of · qty → bundle<br><small>LLM may only phrase the "why", never pick SKUs</small></div>
+<div class="b s" style="left:830px;top:180px;width:390px;height:90px"><h4>Pricing &amp; quote service</h4>band pricing · discounts · GST · ETA</div>
+<div class="b s" style="left:830px;top:285px;width:390px;height:120px"><h4>KYC service</h4>multi-pass OCR (de-watermark, deskew, blur score) → GSTIN checksum + registry cross-checks</div>
+<div class="b s" style="left:830px;top:420px;width:390px;height:100px"><h4>Order orchestration</h4>parallel survey + KYC · milestones · SLA credits</div>
+<div class="b s" style="left:830px;top:535px;width:390px;height:115px"><h4>Propensity model</h4>LightGBM · lead-time features · SHAP reasons per lead · AUC 0.69, 1.7× lift</div>
+<div class="b d" style="left:1270px;top:45px;width:310px;height:95px"><h4>product_catalogue</h4>25 SKUs, rules, install days</div>
+<div class="b d" style="left:1270px;top:155px;width:310px;height:120px"><h4>Mock GSTIN &amp; Udyam APIs</h4>3,534 + 2,723 records<br><small>prod: GSTN / Udyam / DigiLocker / e-Sign</small></div>
+<div class="b d" style="left:1270px;top:290px;width:310px;height:95px"><h4>smb_leads (5,000)</h4>training + funnel analytics</div>
+<div class="b p" style="left:1270px;top:400px;width:310px;height:245px"><h4>🔒 Privacy layer</h4>consent ledger (purpose-tagged)<br>images processed in-memory, never stored in demo<br>masked IDs in UI &amp; logs<br>30-day image deletion<br>audit log · one-tap withdraw</div>
+<div class="b" style="left:20px;top:680px;width:1560px;height:110px;border:2px dashed #bbb;font-size:16px"><b>Data flow:</b> owner/link → Advisor profile → Rules engine + Catalogue → Quote → Consent ledger → KYC (OCR → GSTIN checksum → registry lookup → name/state/date checks → verdict) → Order orchestration (survey booked at checkout) → Tracker. Unclosed sessions + dropped leads → Propensity model → Saathi queue → advisor link back to owner (with partner code for commission). <b>Stack:</b> Python 3 · FastAPI · Tesseract OCR · LightGBM · pandas · vanilla JS mobile PWA.</div>
+<svg width="1600" height="680"><defs><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#E40000"/></marker></defs>
+<g stroke="#E40000" stroke-width="2.5" fill="none" marker-end="url(#a)">
+<path d="M340,105 L388,100"/><path d="M340,245 L388,110"/><path d="M340,392 L388,580"/>
+<path d="M780,97 L828,100"/><path d="M780,217 L828,225"/><path d="M780,337 L828,345"/><path d="M780,457 L828,465"/><path d="M780,592 L828,585"/>
+<path d="M1220,100 L1268,92"/><path d="M1220,345 L1268,215"/><path d="M1220,585 L1268,340"/><path d="M1220,345 L1268,520"/>
+</g></svg>
+</body></html>
